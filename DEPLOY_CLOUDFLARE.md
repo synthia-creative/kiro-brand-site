@@ -7,7 +7,7 @@
 - 本番ビルド・TypeScriptチェック: 成功。
 - ローカル本番QA: 1440 / 1024 / 390 / 375 / 430pxとMotion軽減2幅の全7ケース成功。Console error / warning / HTTPエラー / axe指摘は0。画像・フォント・スクロール・破断・タップ・復元を確認。証跡はローカル `docs/deployment/local-qa/`。
 - UI維持: `src/` と `public/` のSHA-256を変更前と比較し、差分はOGPの基準URLを扱う `src/app/layout.tsx` のみ。CSS・商品画像・コピー・Motion実装は一致。
-- Git: ローカル `main` を初期化。GitHubの作成・pushはブラウザログイン待ち。
+- Git: ローカル `main` に初回commit `3494df1` を作成済み。GitHubの作成・pushはブラウザログイン待ち。
 - GitHub予定名: `synthia-creative/kiro-brand-site`（Public）。作成前のためURL未確定。
 - Cloudflare: ブラウザログイン待ち。Pagesプロジェクト・公開URLは未作成。
 - ローカル本番QAと公開環境QAは別々に記録する。公開環境の成功をローカル結果で代用しない。
