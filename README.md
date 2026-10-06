@@ -92,6 +92,6 @@ npm run qa
 
 GitHub → Cloudflare PagesのGit連携を使用します。設定は `main` / `Next.js (Static HTML Export)` / `npm run build` / `out` / root空欄。Node.jsは `.node-version` で検証済みの24.19.0に固定しています。
 
-現在はローカル本番ビルドと7ケースのブラウザQA成功、Gitの `main` 初回commit `3494df1` まで完了。GitHub予定名は `synthia-creative/kiro-brand-site`（Public）。GitHub・Cloudflareへのブラウザログイン待ちであり、リポジトリURL・公開URLはまだ未確定です。
+現在はローカル本番ビルドと7ケースのブラウザQA成功、[synthia-creative/kiro-brand-site](https://github.com/synthia-creative/kiro-brand-site)（Public）の `main` へpushまで完了。Cloudflareはログイン済みでPagesのGitHub連携承認待ち。公開URLはまだ未発行です。
 
 手順、環境変数、更新、トラブル対応は [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md)。公開済みとなるまでは、ローカルQAを公開環境QAとして扱いません。
