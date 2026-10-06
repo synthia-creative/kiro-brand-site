@@ -1,0 +1,116 @@
+const { chromium } = require('playwright');
+const AxeBuilder = require('@axe-core/playwright').default;
+const fs = require('node:fs');
+const assert = require('node:assert/strict');
+const baseURL = process.env.KIRO_QA_URL || 'http://127.0.0.1:3000';
+const outputDir = process.env.KIRO_QA_OUTPUT || 'docs/qa';
+const widths = [1440, 1024, 390, 375, 430];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+(async () => {
+  fs.mkdirSync(outputDir, { recursive: true });
+  const browser = await chromium.launch({ channel: 'msedge', headless: true });
+  const results = [];
+  for (const width of widths) {
+    const context = await browser.newContext({ viewport: { width, height: width > 600 ? 960 : 844 }, isMobile: width <= 600, hasTouch: width <= 600 });
+    const page = await context.newPage();
+    const errors = [], warnings = [], badRequests = [];
+    page.on('pageerror', e => errors.push(e.message));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); else if (m.type() === 'warning') warnings.push(m.text()); });
+    page.on('response', r => { if (r.status() >= 400) badRequests.push(`${r.status()} ${r.url()}`); });
+    await page.goto(baseURL, { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    await sleep(700);
+    assert.match(await page.title(), /KIRO/);
+    assert.equal(await page.locator('h1').count(), 1);
+    assert.match(await page.locator('h1').innerText(), /ぱきっ/);
+    assert.equal(await page.locator('[data-nextjs-dialog-overlay]').count(), 0);
+    await page.screenshot({ path: `${outputDir}/${width}-hero.png` });
+
+    const anchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(l => l.getAttribute('href')).filter(href => !document.querySelector(href)));
+    assert.deepEqual(anchors, []);
+    const layout = [];
+    for (const selector of ['.hero', '.brand-message', '.parade', '.product-story', '.giant', '.taste', '.product-detail', '.ending', '.site-footer']) {
+      const position = await page.locator(selector).evaluate(el => el.getBoundingClientRect().top + window.scrollY);
+      await page.evaluate(y => window.scrollTo({ top: y, behavior: 'instant' }), position);
+      await sleep(150);
+      layout.push(await page.evaluate(() => ({ scroll: window.scrollY, width: window.innerWidth, body: document.documentElement.scrollWidth })));
+      assert.ok(layout.at(-1).body <= width + 1, `overflow at ${width} ${selector}: ${layout.at(-1).body}`);
+      if (width === 1440 || width === 390) await page.screenshot({ path: `${outputDir}/${width}-${selector.slice(1)}.png` });
+    }
+    const parade = await page.locator('.parade').evaluate(el => ({ y: el.getBoundingClientRect().top + window.scrollY, range: el.offsetHeight - window.innerHeight }));
+    const scrollTo = async y => { await page.evaluate(y => window.scrollTo({ top: y, behavior: 'instant' }), y); await sleep(200); };
+    await scrollTo(parade.y);
+    const initialX = await page.locator('.parade-track').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41);
+    await scrollTo(parade.y + parade.range * .8);
+    const finalX = await page.locator('.parade-track').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41);
+    assert.ok(finalX < initialX - 100, `Parade failed at ${width}: ${initialX} -> ${finalX}`);
+    await page.screenshot({ path: `${outputDir}/${width}-parade-moving.png` });
+    await scrollTo(parade.y);
+    const reverseX = await page.locator('.parade-track').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41);
+    assert.ok(Math.abs(reverseX - initialX) < 2);
+
+    const giant = await page.locator('.giant').evaluate(el => ({ y: el.getBoundingClientRect().top + window.scrollY, range: el.offsetHeight - window.innerHeight }));
+    const button = page.getByTestId('break-button');
+    await scrollTo(giant.y + giant.range * .25);
+    assert.equal(await button.getAttribute('aria-pressed'), 'false');
+    const beforeBox = await page.locator('.whole-state').boundingBox();
+    await page.screenshot({ path: `${outputDir}/${width}-sable-whole.png` });
+    if (width <= 600) await button.tap(); else await button.click();
+    assert.equal(await button.getAttribute('aria-pressed'), 'true');
+    await sleep(1000);
+    const afterBox = await page.locator('.broken-state').boundingBox();
+    for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(afterBox[key] - beforeBox[key]) < 1, `${width} Image jump ${key}`);
+    await page.screenshot({ path: `${outputDir}/${width}-sable-broken.png` });
+    await button.focus();
+    await page.keyboard.press('Space');
+    assert.equal(await button.getAttribute('aria-pressed'), 'false');
+    await page.keyboard.press('Enter');
+    assert.equal(await button.getAttribute('aria-pressed'), 'true');
+    await scrollTo(giant.y + giant.range * .75);
+    assert.equal(await button.getAttribute('aria-pressed'), 'true');
+    await scrollTo(giant.y + giant.range * .2);
+    assert.equal(await button.getAttribute('aria-pressed'), 'false');
+    await scrollTo(giant.y + giant.range + 200);
+    assert.ok(await page.locator('.giant-sticky').evaluate(el => el.getBoundingClientRect().bottom < window.innerHeight));
+
+    await page.locator('.shop-button').click();
+    assert.equal(await page.locator('dialog').evaluate(el => el.open), true);
+    assert.equal(await page.evaluate(() => document.activeElement.className), 'dialog-close');
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('dialog').evaluate(el => el.open), false);
+    assert.equal(await page.evaluate(() => document.activeElement.className), 'shop-button');
+    await page.locator('.shop-button').click();
+    await page.locator('.dialog-close').click();
+    assert.equal(await page.locator('dialog').evaluate(el => el.open), false);
+    const images = await page.locator('img').evaluateAll(imgs => imgs.filter(i => (i.complete && i.naturalWidth === 0) || (!i.complete && i.loading !== 'lazy')).map(i => i.src));
+    assert.deepEqual(images, []);
+    assert.deepEqual(badRequests, []);
+    assert.deepEqual(errors, []);
+    const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    fs.writeFileSync(`${outputDir}/${width}-axe.json`, JSON.stringify(accessibility.violations, null, 2));
+    assert.deepEqual(accessibility.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })), [], `Accessibility ${width}`);
+    results.push({ width, passed: true, title: await page.title(), layoutSamples: layout.length, parade: { initialX, finalX, reverseX }, beforeBox, afterBox, errors, warnings, badRequests, tap: width <= 600, keyboard: true, scrollBreakAndReverse: true, stickyExit: true, shopDialogAndFocus: true, accessibilityViolations: accessibility.violations.length });
+    await context.close();
+    console.log(`PASS ${width}px`);
+  }
+  for (const width of [1440, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.goto(baseURL, { waitUntil: 'networkidle' });
+    await sleep(500);
+    assert.equal(await page.locator('.float-package').evaluate(el => getComputedStyle(el).animationName), 'none');
+    assert.equal(await page.locator('.parade-sticky').evaluate(el => getComputedStyle(el).position), 'relative');
+    assert.equal(await page.locator('.parade-track').evaluate(el => getComputedStyle(el).display), 'grid');
+    await page.getByTestId('break-button').scrollIntoViewIfNeeded();
+    await page.getByTestId('break-button').click();
+    assert.equal(await page.getByTestId('break-button').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('.sable-states').evaluate(el => getComputedStyle(el).animationName), 'none');
+    await page.screenshot({ path: `${outputDir}/${width}-reduced-motion.png` });
+    results.push({ width, reducedMotion: true, passed: true, floatStopped: true, paradeStatic: true, breakWorks: true, shakeStopped: true });
+    await context.close();
+    console.log(`PASS reduced motion ${width}px`);
+  }
+  fs.writeFileSync(`${outputDir}/results.json`, JSON.stringify({ baseURL, browser: 'Microsoft Edge / Playwright; Browser plugin not available', date: '2026-10-06', results }, null, 2));
+  await browser.close();
+})().catch(e => { console.error(e); process.exit(1); });

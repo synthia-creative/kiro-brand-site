@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+*.tsbuildinfo
+*.log
+.DS_Store
+
+# Local production records and reference captures are preserved outside Git.
+docs/ORIGINAL_BRIEF.md
+docs/PROJECT_RECORD.md
+docs/*ログ.md
+docs/reference/
+docs/deployment-ui-hashes.json
+docs/deployment/
+docs/qa/*.png

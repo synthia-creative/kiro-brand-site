@@ -1,0 +1,27 @@
+const { chromium } = require('playwright');
+const fs = require('node:fs');
+(async () => {
+  fs.mkdirSync('docs/reference', { recursive: true });
+  const browser = await chromium.launch({ channel: 'msedge', headless: true });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 960 } });
+  await page.goto('https://share.harukaze.inc/site-starter-00e76b/?openExternalBrowser=1#recipe', { waitUntil: 'domcontentloaded', timeout: 45000 });
+  await page.waitForTimeout(1800);
+  await page.screenshot({ path: 'docs/reference/recipe-desktop.png' });
+  console.log(JSON.stringify({url: page.url(), title: await page.title(), text: (await page.locator('body').innerText()).slice(0, 4000)}));
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: 'docs/reference/hero-desktop.png' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(1200);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'docs/reference/hero-mobile.png' });
+  await page.setViewportSize({ width: 1440, height: 960 });
+  await page.goto('https://pokke-lemon-break.netlify.app', { waitUntil: 'domcontentloaded', timeout: 45000 });
+  await page.waitForTimeout(1600);
+  await page.screenshot({ path: 'docs/reference/product-hero-desktop.png' });
+  console.log(JSON.stringify({ productReference: page.url(), title: await page.title(), text: (await page.locator('body').innerText()).slice(0, 1600) }));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: 'docs/reference/product-hero-mobile.png' });
+  await browser.close();
+})().catch(e => { console.error(e.message); process.exit(1); });
