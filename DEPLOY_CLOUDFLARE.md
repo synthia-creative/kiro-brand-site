@@ -9,8 +9,10 @@
 - UI維持: `src/` と `public/` のSHA-256を変更前と比較し、差分はOGPの基準URLを扱う `src/app/layout.tsx` のみ。CSS・商品画像・コピー・Motion実装は一致。
 - Git: ローカル `main` に初回commit `3494df1` を作成済み。GitHubへpush成功し、`origin/main` を追跡。
 - GitHub: [synthia-creative/kiro-brand-site](https://github.com/synthia-creative/kiro-brand-site)（Public）。
-- Cloudflare: ログイン済み。PagesのGitHub連携承認待ち。Pagesプロジェクト・公開URLは未作成。
-- ローカル本番QAと公開環境QAは別々に記録する。公開環境の成功をローカル結果で代用しない。
+- Cloudflare: GitHub連携で初回公開成功。Production branchは `main`、Automatic deployments enabledを確認。
+- 本番URL: [https://kiro-brand-site.pages.dev/](https://kiro-brand-site.pages.dev/)
+- 公開環境QA: 本番URLで全7ケース成功。Heroの浮遊・parallax、横移動と逆方向、破断と復元、タップ・キーボード、フォント2種の読み込み、画像・ダイアログ・Motion軽減を検証。Console error / warning / HTTPエラー / axe指摘は0。
+- 公開QAのJSON: `docs/CLOUDFLARE_QA_RESULTS.json`。スクリーンショットはローカル `docs/deployment/cloud-qa/`。実機iOS / Androidでの検証は未実施。
 
 ## Pagesに入力する設定
 
@@ -18,7 +20,7 @@
 | --- | --- |
 | サービス | Cloudflare Pages / GitHub連携 |
 | リポジトリ | `synthia-creative/kiro-brand-site`（作成・push済み） |
-| Project name | `kiro-brand-site`（空き状況は作成画面で確認） |
+| Project name | `kiro-brand-site` |
 | Production branch | `main` |
 | Framework preset | `Next.js (Static HTML Export)` |
 | Build command | `npm run build` |
@@ -38,7 +40,7 @@ OGPは `NEXT_PUBLIC_SITE_URL` → Cloudflareが自動注入する `CF_PAGES_URL`
 2. このローカル `main` をGitHubへpush。認証は本人が行う。Tokenはファイル・Git・説明書へ保存しない。
 3. Cloudflareにログイン → **Workers & Pages** → **Create application** → **Pages** → **Import an existing Git repository**。
 4. GitHub接続が必要なら本人が承認し、対象をこのリポジトリに絞る。上表の設定を入力し **Save and Deploy**。
-5. Build successと実際に発行された `pages.dev` URLを確認。URLは推測せず、この文書とREADMEに追記。
+5. Build successと実際に発行された `pages.dev` URLを確認。初回公開は2026-10-06、commit `8fcbd93`、deployment `73ec73bb-7758-440d-9329-8edd754db02c`。本番URLは上記の通り。
 6. 公開URLで以下のQAを実行し、画像・文字・横移動・破断のスクリーンショットを目視する。
 
 ## 更新方法

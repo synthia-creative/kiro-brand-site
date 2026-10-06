@@ -92,6 +92,8 @@ npm run qa
 
 GitHub → Cloudflare PagesのGit連携を使用します。設定は `main` / `Next.js (Static HTML Export)` / `npm run build` / `out` / root空欄。Node.jsは `.node-version` で検証済みの24.19.0に固定しています。
 
-現在はローカル本番ビルドと7ケースのブラウザQA成功、[synthia-creative/kiro-brand-site](https://github.com/synthia-creative/kiro-brand-site)（Public）の `main` へpushまで完了。Cloudflareはログイン済みでPagesのGitHub連携承認待ち。公開URLはまだ未発行です。
+公開済み: **[kiro-brand-site.pages.dev](https://kiro-brand-site.pages.dev/)**。ソース: [synthia-creative/kiro-brand-site](https://github.com/synthia-creative/kiro-brand-site)（Public）。`main` へのpushでCloudflare Pagesが自動ビルド・公開します。
 
-手順、環境変数、更新、トラブル対応は [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md)。公開済みとなるまでは、ローカルQAを公開環境QAとして扱いません。
+公開URLで1440 / 1024 / 390 / 375 / 430pxとMotion軽減2幅の計7ケース合格。Heroの浮遊・parallax、横移動・逆方向、破断・復元、タップ・キーボード、フォント、画像、ダイアログを確認。Console error / warning・HTTPエラー・axe指摘0。スマホはEdgeのエミュレーションで、実機検証は未実施です。
+
+手順、環境変数、更新、トラブル対応は [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md)。公開QAの実測は [docs/CLOUDFLARE_QA_RESULTS.json](docs/CLOUDFLARE_QA_RESULTS.json)。内部案件記録とスクリーンショットはローカル保存のため、Publicリポジトリには含めません。

@@ -1,0 +1,235 @@
+{
+  "baseURL": "https://kiro-brand-site.pages.dev/",
+  "browser": "Microsoft Edge / Playwright",
+  "date": "2026-10-06",
+  "results": [
+    {
+      "width": 1440,
+      "passed": true,
+      "title": "KIRO | 焦がしキャラメルサブレ",
+      "layoutSamples": 9,
+      "fonts": [
+        "Outfit Variable",
+        "Noto Sans JP Variable"
+      ],
+      "heroFloat": true,
+      "heroMotion": {
+        ".hero-word": 65.625,
+        ".hero-package": -40.1042,
+        ".hero-cookie-front": -76.5625
+      },
+      "parade": {
+        "initialX": 0,
+        "finalX": -2033.37,
+        "reverseX": 0
+      },
+      "beforeBox": {
+        "x": 220.5,
+        "y": -19.5,
+        "width": 999,
+        "height": 999
+      },
+      "afterBox": {
+        "x": 220.5,
+        "y": -19.5,
+        "width": 999,
+        "height": 999
+      },
+      "errors": [],
+      "warnings": [],
+      "badRequests": [],
+      "tap": false,
+      "keyboard": true,
+      "scrollBreakAndReverse": true,
+      "stickyExit": true,
+      "shopDialogAndFocus": true,
+      "accessibilityViolations": 0
+    },
+    {
+      "width": 1024,
+      "passed": true,
+      "title": "KIRO | 焦がしキャラメルサブレ",
+      "layoutSamples": 9,
+      "fonts": [
+        "Outfit Variable",
+        "Noto Sans JP Variable"
+      ],
+      "heroFloat": true,
+      "heroMotion": {
+        ".hero-word": 65.625,
+        ".hero-package": -40.1042,
+        ".hero-cookie-front": -76.5625
+      },
+      "parade": {
+        "initialX": 0,
+        "finalX": -2044.64,
+        "reverseX": 0
+      },
+      "beforeBox": {
+        "x": 141.77496337890625,
+        "y": 109.79058837890625,
+        "width": 740.4344482421875,
+        "height": 740.4344482421875
+      },
+      "afterBox": {
+        "x": 141.77496337890625,
+        "y": 109.79058837890625,
+        "width": 740.4344482421875,
+        "height": 740.4344482421875
+      },
+      "errors": [],
+      "warnings": [],
+      "badRequests": [],
+      "tap": false,
+      "keyboard": true,
+      "scrollBreakAndReverse": true,
+      "stickyExit": true,
+      "shopDialogAndFocus": true,
+      "accessibilityViolations": 0
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "title": "KIRO | 焦がしキャラメルサブレ",
+      "layoutSamples": 9,
+      "fonts": [
+        "Outfit Variable",
+        "Noto Sans JP Variable"
+      ],
+      "heroFloat": true,
+      "heroMotion": {
+        ".hero-word": 74.6445,
+        ".hero-package": -45.6161,
+        ".hero-cookie-front": -87.0853
+      },
+      "parade": {
+        "initialX": 0,
+        "finalX": -1395.04,
+        "reverseX": 0
+      },
+      "beforeBox": {
+        "x": -36.833343505859375,
+        "y": 207.04165649414062,
+        "width": 463.66668701171875,
+        "height": 463.6667175292969
+      },
+      "afterBox": {
+        "x": -36.833343505859375,
+        "y": 207.04165649414062,
+        "width": 463.66668701171875,
+        "height": 463.6667175292969
+      },
+      "errors": [],
+      "warnings": [],
+      "badRequests": [],
+      "tap": true,
+      "keyboard": true,
+      "scrollBreakAndReverse": true,
+      "stickyExit": true,
+      "shopDialogAndFocus": true,
+      "accessibilityViolations": 0
+    },
+    {
+      "width": 375,
+      "passed": true,
+      "title": "KIRO | 焦がしキャラメルサブレ",
+      "layoutSamples": 9,
+      "fonts": [
+        "Outfit Variable",
+        "Noto Sans JP Variable"
+      ],
+      "heroFloat": true,
+      "heroMotion": {
+        ".hero-word": 74.6445,
+        ".hero-package": -45.6161,
+        ".hero-cookie-front": -87.0853
+      },
+      "parade": {
+        "initialX": 0,
+        "finalX": -1341.6,
+        "reverseX": 0
+      },
+      "beforeBox": {
+        "x": -35.515869140625,
+        "y": 215.859130859375,
+        "width": 446.03173828125,
+        "height": 446.03173828125
+      },
+      "afterBox": {
+        "x": -35.515869140625,
+        "y": 215.859130859375,
+        "width": 446.03173828125,
+        "height": 446.03173828125
+      },
+      "errors": [],
+      "warnings": [],
+      "badRequests": [],
+      "tap": true,
+      "keyboard": true,
+      "scrollBreakAndReverse": true,
+      "stickyExit": true,
+      "shopDialogAndFocus": true,
+      "accessibilityViolations": 0
+    },
+    {
+      "width": 430,
+      "passed": true,
+      "title": "KIRO | 焦がしキャラメルサブレ",
+      "layoutSamples": 9,
+      "fonts": [
+        "Outfit Variable",
+        "Noto Sans JP Variable"
+      ],
+      "heroFloat": true,
+      "heroMotion": {
+        ".hero-word": 74.6445,
+        ".hero-package": -45.6161,
+        ".hero-cookie-front": -87.0853
+      },
+      "parade": {
+        "initialX": 0,
+        "finalX": -1538.08,
+        "reverseX": 0
+      },
+      "beforeBox": {
+        "x": -40.72486877441406,
+        "y": 183.15013122558594,
+        "width": 511.44972229003906,
+        "height": 511.44972229003906
+      },
+      "afterBox": {
+        "x": -40.72486877441406,
+        "y": 183.15013122558594,
+        "width": 511.44972229003906,
+        "height": 511.44972229003906
+      },
+      "errors": [],
+      "warnings": [],
+      "badRequests": [],
+      "tap": true,
+      "keyboard": true,
+      "scrollBreakAndReverse": true,
+      "stickyExit": true,
+      "shopDialogAndFocus": true,
+      "accessibilityViolations": 0
+    },
+    {
+      "width": 1440,
+      "reducedMotion": true,
+      "passed": true,
+      "floatStopped": true,
+      "paradeStatic": true,
+      "breakWorks": true,
+      "shakeStopped": true
+    },
+    {
+      "width": 390,
+      "reducedMotion": true,
+      "passed": true,
+      "floatStopped": true,
+      "paradeStatic": true,
+      "breakWorks": true,
+      "shakeStopped": true
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 # KIRO — QA結果
 
+## Cloudflare Pages公開環境（2026-10-06追記）
+
+本番URL: https://kiro-brand-site.pages.dev/ 。GitHub連携で `main` を自動公開。公開URLに対して1440 / 1024 / 390 / 375 / 430px、Motion軽減1440 / 390pxの計7ケースがPASS。従来の静的出力チェックに加え、Heroの浮遊のtransform変化、スクロール時の3レイヤーの移動方向、Outfit / Noto Sans JPのloaded状態、通信失敗、OGPがlocalhostでないことを明示的に検証した。
+
+Console error / warning、pageerror、HTTP 400以上、通信失敗、画像欠落、axe指摘は0。PC・タブレット・スマホのHeroと破断状態を目視確認。JSONは `docs/CLOUDFLARE_QA_RESULTS.json`、38点のスクリーンショットはローカル `docs/deployment/cloud-qa/`。スマホはEdgeのviewport / タッチエミュレーションであり、実機Safari / Androidの結果ではない。
+
+以下は制作時のローカル検証記録。公開前時点の検証境界は、その当時の記録として保持する。
+
 実施日: 2026-10-06 / 検証環境: Windows・Microsoft Edge・Playwright。
 
 ## 結果
